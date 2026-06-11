@@ -1,0 +1,131 @@
+/* Tailwind core */
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* Demos */
+@import "demos/demo1";
+
+/* Shadcn UI */
+@import "shadcn.ui";
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 1s ease-in-out forwards;
+}
+
+.animate-fadeOut {
+  animation: fadeOut 1s ease-in-out forwards;
+}
+
+@keyframes move-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-move-gradient {
+  background-size: 200% 200%;
+  animation: move-gradient 2s ease infinite;
+}
+@keyframes border-pulse {
+  0% {
+    /* border-color: #ec4899; */
+    box-shadow: 0 0 1px 1px #ec4899;
+  }
+  25% {
+    /* border-color: #f59e0b; */
+    box-shadow: 0 0 2px 1px #f59e0b;
+  }
+  50% {
+    /* border-color: #6366f1; */
+    box-shadow: 0 0 4px 2px #6366f1;
+  }
+  75% {
+    /* border-color: #06b6d4; */
+    box-shadow: 0 0 4px 2px #06b6d4;
+  }
+  100% {
+    /* border-color: #ec4899; */
+    box-shadow: 0 0 2px 1px #ec4899;
+  }
+}
+
+.animate-border-pulse {
+  border-width: 2px;
+  border-style: solid;
+  /* border-radius: 0.75rem; smooth inside */
+  animation: border-pulse 3s linear infinite;
+}
+
+@keyframes running-line {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-running-line {
+  animation: running-line 2s ease-in-out forwards;
+}
+
+.scroll-ilang {
+  scrollbar-width: none;
+}
+
+.scroll-thin {
+  scrollbar-width: thin;
+}
+
+.scroll-auto {
+  scrollbar-width: initial;
+}
+
+.scroll-dynamic {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+.scroll-dynamic:hover {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+/* Chrome / Edge / Safari */
+.scroll-dynamic::-webkit-scrollbar {
+  height: 6px;
+}
+
+.scroll-dynamic::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 9999px;
+}
+
+.scroll-dynamic::-webkit-scrollbar-track {
+  background: transparent;
+}

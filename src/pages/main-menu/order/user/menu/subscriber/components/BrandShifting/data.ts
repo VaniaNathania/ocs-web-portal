@@ -1,0 +1,135 @@
+export const brandShiftingDummy: IBrandShiftingList[] = [
+  {
+    id: "1",
+    brandName: "Prepaid_Reguler_DPP",
+    brandOTC: "0.00000",
+    brandMRC: "0.00000",
+    effectiveType: "2025-09-26 16:28:29",
+    effectiveDuration: "Forever",
+    remarks: null,
+  },
+  {
+    id: "2",
+    brandName: "Incoming SMS",
+    brandOTC: "0.00000",
+    brandMRC: "0.00000",
+    effectiveType: "2025-09-26 16:28:29",
+    effectiveDuration: "Forever",
+    remarks: "Telkomcel Globe Related Product Group",
+  },
+  {
+    id: "3",
+    brandName: "Outgoing SMS",
+    brandOTC: "0.00000",
+    brandMRC: "0.00000",
+    effectiveType: "2025-09-26 16:28:29",
+    effectiveDuration: "Forever",
+    remarks: "Telkomcel Globe Related Product Group",
+  },
+  {
+    id: "4",
+    brandName: "Voice Service",
+    brandOTC: "0.00000",
+    brandMRC: "0.00000",
+    effectiveType: "2025-09-26 16:28:29",
+    effectiveDuration: "Forever",
+    remarks: null,
+  },
+  {
+    id: "5",
+    brandName: "Data Service",
+    brandOTC: "0.00000",
+    brandMRC: "0.00000",
+    effectiveType: "2025-09-26 16:28:29",
+    effectiveDuration: "Forever",
+    remarks: null,
+  },
+];
+
+export const serviceOfferDummy = [
+  {
+    id: "prepaid-regular",
+    name: "SC_1000_Prepaid_Reguler[0-1]",
+    icon: "📱",
+    expanded: true,
+    items: [
+      {
+        id: "prepaid-dpp",
+        name: "Prepaid_Reguler_DPP",
+        otc: "0.00000",
+        mrc: "0.00000",
+        checked: true,
+      },
+    ],
+  },
+  {
+    id: "prepaid-dedicated",
+    name: "Prepaid Dedicated Price Plan Group [0-N]",
+    icon: "💰",
+    expanded: false,
+    items: [
+      {
+        id: "extend-1m",
+        name: "Extend me 1 Month",
+        otc: "0.00000",
+        mrc: "0.00000",
+      },
+      {
+        id: "extend-15d",
+        name: "Extend Me 15 Days",
+        otc: "0.00000",
+        mrc: "0.00000",
+      },
+      {
+        id: "extend-30d",
+        name: "Extend Me 30 Days",
+        otc: "0.00000",
+        mrc: "0.00000",
+      },
+      {
+        id: "extend-60d",
+        name: "Extend Me 60 Days",
+        otc: "0.00000",
+        mrc: "0.00000",
+      },
+    ],
+  },
+  {
+    id: "vas-package",
+    name: "VAS Package Price Plan Group [0-N]",
+    icon: "🎮",
+    expanded: false,
+    items: [
+      {
+        id: "voucher-aov",
+        name: "Voucher Game AOV 1430 Diamonds",
+        otc: "0.00000",
+        mrc: "0.00000",
+      },
+      {
+        id: "voucher-ff",
+        name: "Voucher Game FreeFire 12 Diamonds",
+        otc: "0.00000",
+        mrc: "0.00000",
+      },
+      {
+        id: "monthly-sms",
+        name: "Monthly SMS Package 100 SSU",
+        otc: "0.00000",
+        mrc: "0.00000",
+      },
+      {
+        id: "sp-bundling",
+        name: "SP Bundling Furak Data Period",
+        otc: "0.00000",
+        mrc: "0.00000",
+      },
+      {
+        id: "amigods-comp",
+        name: "Amigods Compliment 10000 SMS",
+        otc: "0.00000",
+        mrc: "0.00000",
+      },
+    ],
+  },
+];

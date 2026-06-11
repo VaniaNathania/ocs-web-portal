@@ -1,0 +1,166 @@
+interface AccountBalanceTypeDetail {
+  balType: number;
+  parentAcctResId: number | null;
+  acctResName: string;
+  isCurrency: string;
+  comments: string | null;
+  creditLimit: number | null;
+  remindDay: number | null;
+  remindValue: number | null;
+  maxValue: number | null;
+  refillable: string;
+  paymentForce: string;
+  stdCode: string | null;
+  isFreeUnit: string;
+  defaultAcctItemTypeId: number;
+  spId: number | null;
+  unitTypeId: number | null;
+  unitPrecision: number | null;
+  ratioMoney: number | null;
+  ratioPrecision: number | null;
+  priority: number | null;
+  extendRule: string | null;
+  maxExpDate: number | null;
+  maxAdjustValue: number | null;
+  maxChgValue: number | null;
+  resetZero: string;
+  periodClass: string | null;
+  storeUnit: number | null;
+  acmType: string | null;
+  acmThreshold: number | null;
+  acmUnit: string | null;
+  acmAmount: number | null;
+  ceilLimit: number | null;
+  floorLimit: number | null;
+  dailyCeilLimit: number | null;
+  dailyFloorLimit: number | null;
+  gracePeriod: number | null;
+  maxRollover: number | null;
+  usageType: number | null;
+  rewardFlag: string;
+  unlimitedFlag: string;
+  adjustType: number | null;
+  overdraftFlag: string;
+  balanceAggregation: string;
+  category: string | null;
+  rolloverFlag: string;
+  reservePercentage: number | null;
+  freeFlag: string;
+  adjustFlag: string;
+  balCategory: string;
+  clearFlag: string;
+  clearDays: number | null;
+  customerFlag: string;
+  acctResFree: {
+    value: number | null;
+    rum: number | null;
+    spId: number | null;
+  } | null;
+  transAcctResCfg: {
+    dayThreshold: number | null;
+    weekThreshold: number | null;
+    monthThreshold: number | null;
+    dayCount: number | null;
+    weekCount: number | null;
+    monthCount: number | null;
+    minResidualBal: number | null;
+    maxAllowed: number | null;
+    minAllowed: number | null;
+    transferFactor: number | null;
+  } | null;
+}
+
+interface AccountBalanceTypeInformation {
+  acctResId: number;
+  balType: number;
+  parentAcctResId: number | null;
+  acctResName: string;
+  isCurrency: string;
+  comments: string | null;
+  creditLimit: number | null;
+  remindDay: number | null;
+  remindValue: number | null;
+  maxValue: number | null;
+  refillable: string;
+  paymentForce: string;
+  stdCode: string | null;
+  isFreeUnit: string;
+  defaultAcctItemType: number;
+  spId: number | null;
+  unitTypeId: number | null;
+  unitPrecision: number | null;
+  ratioMoney: number | null;
+  ratioPrecision: number | null;
+  priority: number | null;
+  extendRule: string | null;
+  maxExpDate: number | null;
+  maxAdjustValue: number | null;
+  maxChgValue: number | null;
+  resetZero: string;
+  periodClass: string | null;
+  storeUnit: number | null;
+  acmType: string | null;
+  acmThreshold: number | null;
+  acmUnit: string | null;
+  acmAmount: number | null;
+  ceilLimit: number | null;
+  floorLimit: number | null;
+  dailyCeilLimit: number | null;
+  dailyFloorLimit: number | null;
+  gracePeriod: number | null;
+  maxRollover: number | null;
+  usageType: number | null;
+  rewardFlag: string;
+  unlimitedFlag: string;
+  adjustType: number | null;
+  overdraftFlag: string;
+  balanceAggregation: string;
+  category: string | null;
+  rolloverFlag: string;
+  reservePercentage: number | null;
+  freeFlag: string;
+  adjustFlag: string;
+  balCategory: string;
+  clearFlag: string;
+  clearDays: number | null;
+  customerFlag: string;
+  acctResFree: {
+    value: number | null;
+    rum: number | null;
+    spId: number | null;
+  } | null;
+  transAcctResCfg: {
+    dayThreshold: number | null;
+    weekThreshold: number | null;
+    monthThreshold: number | null;
+    dayCount: number | null;
+    weekCount: number | null;
+    monthCount: number | null;
+    minResidualBal: number | null;
+    maxAllowed: number | null;
+    minAllowed: number | null;
+    transferFactor: number | null;
+  } | null;
+  dayThreshold:number | null;
+  weekThreshold:number | null;
+  monthThreshold:number | null;
+  dayCount:number | null;
+  weekCount:number | null;
+  monthCount:number | null;
+  minResidualBal:number | null;
+  maxAllowed:number | null;
+  minAllowed:number | null;
+  transferFactor:number | null;
+  rum: number | null;
+  value: number | null;
+}
+
+interface BalTypeProps {
+  balTypeName: string;
+  balType: number;
+}
+
+interface ParentAcctResId {
+  acctResId: number;
+  acctResName: string;
+}

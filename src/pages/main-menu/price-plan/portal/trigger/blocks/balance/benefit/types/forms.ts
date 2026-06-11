@@ -1,0 +1,27 @@
+import z from "zod";
+
+export const TriggerBalanceBenefitSchema = z.object({
+  benefitValue: z.number(),
+  accountBalanceType: z.number(),
+  cycleCeilLimit: z.number().nullable(),
+  dailyCeilLimit: z.number().nullable(),
+  maximumDays: z.number().nullable(),
+  subscriberOnly: z.string().nullable(),
+  extendRule: z.string().nullable(),
+  // resultAccountItemType: z.string().nullable(),
+  resultAccountItemType: z.array(z.number()).default([]).optional(),
+  periodType: z.string().nullable(),
+  absoluteEffectiveDate: z.string().nullable(),
+  absoluteExpiryDate: z.string().nullable(),
+  offsetOfEffectiveDate: z.number().nullable(),
+  dayOffset: z.number().nullable(),
+  effUnit: z.string().nullable(),
+  expUnit: z.string().nullable(),
+  durationOfAvailability: z.number().nullable(),
+  relativeEffectiveTime: z.string().nullable(),
+  relativeExpiryTime: z.string().nullable(),
+  relativePeriodUnit: z.string().nullable(),
+  offsetOfAbsoluteExpiry: z.number().nullable(),
+  thresholdId: z.number({ required_error: "Please select a threshold" }),
+  triggerMode: z.string().nullable(),
+});

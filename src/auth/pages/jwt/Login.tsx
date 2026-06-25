@@ -200,8 +200,7 @@ const Login = () => {
             className="text-2sm"
             style={{ fontSize: "12px", letterSpacing: 0.25 }}
           >
-            Copyright {moment().year()} &copy; All rights
-            reserved.
+            
           </p>
         </div>
       </form>

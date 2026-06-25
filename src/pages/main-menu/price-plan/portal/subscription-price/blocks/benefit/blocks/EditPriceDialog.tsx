@@ -478,20 +478,6 @@ const EditPriceDialog = () => {
                       Benefit Value
                     </button>
 
-                    {priceType === "Advanced" && (
-                      <button
-                        type="button"
-                        onClick={() => setActiveTab("advanced")}
-                        className={`py-2 px-3 sm:px-4 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${
-                          activeTab === "advanced"
-                            ? "border-blue-600 text-blue-600"
-                            : "border-transparent text-gray-600 hover:text-blue-600"
-                        }`}
-                      >
-                        Advanced Benefit
-                      </button>
-                    )}
-
                     {priceType === "Price Mapping" && (
                       <button
                         type="button"

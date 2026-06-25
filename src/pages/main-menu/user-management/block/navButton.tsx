@@ -20,10 +20,22 @@ export const NavBtn = () => {
   } = useUserManagement();
 
   const btn: btnItem[] = [
-    {
-      name: "Show User History",
-      func: () => setShowUserHistory(true),
-    },
+    // {
+    //   name: "Show role",
+    //   func: () => setShowGrantRole(true),
+    // },
+    // {
+    //   name: "Show portal",
+    //   func: () => setShowGrantPortal(true),
+    // },
+    // {
+    //   name: "Show menu",
+    //   func: () => setShowGrantMenu(true),
+    // },
+    // {
+    //   name: "Show User History",
+    //   func: () => setShowUserHistory(true),
+    // },
   ];
 
   const btnBuilder = (items: btnItem[]) => {
@@ -40,10 +52,9 @@ export const NavBtn = () => {
       );
     });
   };
-
-  return (
-    <div className="bg-white px-5 py-2 border-b-2">
-      {btn && btnBuilder(btn)}
-    </div>
-  );
+  // return (
+  //     <div className="bg-white px-5 py-2 border-b-2">
+  //       {btn && btnBuilder(btn)}
+  //     </div>
+  //   );
 };

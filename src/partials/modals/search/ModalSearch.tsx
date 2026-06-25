@@ -122,7 +122,7 @@ const ModalSearch = forwardRef<HTMLDivElement, IModalSearchProps>(({ open, onOpe
       children: [
         { icon: 'home-2', info: 'Go to Dashboard' },
         { icon: 'badge', info: 'Public Profile' },
-        { icon: 'profile-circle', info: 'My Profile' },
+        { icon: 'profile-circle', info: 'Change Password' },
         { icon: 'setting-2', info: 'My Account' },
         { icon: 'message-programming', info: 'Devs Forum' }
       ]

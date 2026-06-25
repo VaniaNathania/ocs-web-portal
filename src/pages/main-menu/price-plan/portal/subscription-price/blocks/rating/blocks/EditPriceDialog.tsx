@@ -595,21 +595,6 @@ const EditPriceDialog = () => {
                 <textarea className="w-full px-3 py-2 border border-gray-300 rounded-md focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-colors resize-none" rows={3} {...register("comments")} placeholder="Enter remarks" />
               </div>
 
-              <div className="w-full mt-10">
-                <FormProvider {...methods}>
-                  <div className="grid grid-cols-3 border-b">
-                    <button type="button" className={"py-2 px-4 text-sm font-medium border-b-2 transition-colors border-blue-600 text-blue-600"}>
-                      Expression Price
-                    </button>
-                  </div>
-
-                  <div className="mt-4">
-                    <div className="rounded-lg p-4 min-h-[400px]">
-                      <ExpressionPriceComponent scriptToChange={scriptToChange} />
-                    </div>
-                  </div>
-                </FormProvider>
-              </div>
             </form>
           )}
         </DialogBody>

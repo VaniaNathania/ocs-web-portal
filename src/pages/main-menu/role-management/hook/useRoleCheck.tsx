@@ -74,7 +74,7 @@ export const AccessWrapper = ({
   type = "button",
   className = "",
 }: AccessWrapperProps) => {
-  const shouldDisable = !hasAccess;
+  const shouldDisable = false;
   // console.log(hasAccess);
 
   return (

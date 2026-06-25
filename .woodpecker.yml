@@ -1,0 +1,62 @@
+when:
+  branch:
+    - main
+  event:
+    - push
+    - manual
+  commit:
+    message:
+      exclude:
+        - '\[skip ci\]'
+        - '\[ci skip\]'
+        - '\[no ci\]'
+steps:
+  ######################################################################
+  # DEBUG STEP (OPSIONAL - UNTUK CEK ENV & EVENT)
+  ######################################################################
+  - name: debug
+    image: alpine
+    commands:
+      - echo "=============================="
+      - echo "WOODPECKER PIPELINE START"
+      - env
+      - echo "=============================="
+  ######################################################################
+  # BUILD FRONTEND (DOCKER BUILD)
+  ######################################################################
+  - name: build-fe
+    image: docker:24-cli
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      APP_ENV:
+        from_secret: APP_ENV
+    commands:
+      - echo "BUILD FRONTEND"
+      - echo "APP_ENV=$APP_ENV"
+      - docker compose version
+      - docker compose build
+  ######################################################################
+  # CLEANUP OLD CONTAINER
+  ######################################################################
+  - name: cleanup
+    image: docker:24-cli
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    commands:
+      - echo "CLEANUP CONTAINER"
+      - docker compose down --remove-orphans || true
+  ######################################################################
+  # DEPLOY / START CONTAINER
+  ######################################################################
+  - name: compose-up
+    image: docker:24-cli
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      APP_ENV:
+        from_secret: APP_ENV
+    commands:
+      - echo "DEPLOY START"
+      - docker compose up -d --build --force-recreate
+      - echo "DEPLOY SUCCESS"

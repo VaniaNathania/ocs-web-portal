@@ -46,16 +46,6 @@ export const UserManagementTable = () => {
         },
       },
       {
-        accessorFn: (row) => row.userType,
-        id: "userType",
-        header: ({ column }) => <DataGridColumnHeader title="User Type" column={column} />,
-        cell: ({ row }) => {
-          return <div>{row.original.userType != null ? row.original.userType : "BSS"}</div>;
-        },
-        enableSorting: false,
-        enableHiding: false,
-      },
-      {
         accessorFn: (row) => row.userCode,
         id: "userCode",
         header: ({ column }) => <DataGridColumnHeader title="User Code" column={column} />,
@@ -123,18 +113,18 @@ export const UserManagementTable = () => {
         enableHiding: false,
       },
       {
-        id: "Options",
-        enableSorting: false,
-        enableHiding: false,
-        header: ({ column }) => <DataGridColumnHeader title="Options" className="text-center" column={column} />,
-        cell: ({ row }) => {
-          return <UserMTableOps row={row.original} handleConfirm={setOnConfirm} handleDesc={setDesc} handleDialog={setShowConfirm} />;
-        },
-        meta: {
-          headerClassName: "max-w-[150px]",
-          cellClassName: "max-w-[150px] flex justify-center items-center",
-        },
-      },
+              id: "Options",
+              enableSorting: false,
+              enableHiding: false,
+              header: ({ column }) => <DataGridColumnHeader title="Options" className="text-center" column={column} />,
+              cell: ({ row }) => {
+                return <UserMTableOps row={row.original} handleConfirm={setOnConfirm} handleDesc={setDesc} handleDialog={setShowConfirm} />;
+              },
+              meta: {
+                headerClassName: "max-w-[150px]",
+                cellClassName: "max-w-[150px] flex justify-center items-center",
+              },
+            },
     ],
     [selectedRow],
   );
@@ -212,18 +202,6 @@ export const UserManagementTable = () => {
     [query, user, total],
   );
 
-  const Toolbar = () => {
-    return (
-      <div className="flex justify-start p-2">
-        <DefaultTooltip title="Export Data" placement="top">
-          <Button variant={"outline"} size={"sm"} onClick={handleExport}>
-            Export
-          </Button>
-        </DefaultTooltip>
-      </div>
-    );
-  };
-
   return (
     <div>
       <ConfirmDialogUser isOpen={showConfirm} handleDialog={setShowConfirm} onConfirm={onConfirm} desc={desc} />
@@ -234,7 +212,6 @@ export const UserManagementTable = () => {
           columns={availableColumns}
           pagination={{ size: query?.size || 5 }}
           layout={{ card: false }}
-          toolbar={<Toolbar />}
           sorting={[{ id: query?.sortBy || "userName", desc: false }]}
           serverSide={true}
           rowSelection={true}

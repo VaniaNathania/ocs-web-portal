@@ -528,22 +528,6 @@ const EditPriceDialog = () => {
                 </div>
               </div>
 
-              {/* Tabs Section */}
-              <div className="w-full mt-10">
-                <FormProvider {...methods}>
-                  <div className="grid grid-cols-3 border-b">
-                    <button type="button" className={`py-2 px-4 text-sm font-medium border-b-2 transition-colors border-blue-600 text-blue-600`}>
-                      Expression Price
-                    </button>
-                  </div>
-
-                  <div className="mt-4">
-                    <div className="rounded-lg p-4 min-h-[400px]">
-                      <ExpressionPriceComponent scriptToChange={scriptToChange} />
-                    </div>
-                  </div>
-                </FormProvider>
-              </div>
             </form>
           )}
         </div>

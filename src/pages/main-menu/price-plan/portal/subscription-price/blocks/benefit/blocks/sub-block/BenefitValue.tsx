@@ -1,4 +1,5 @@
 import { Input } from "@/components/ui/input";
+import { useSubscriptionPriceCreateContext } from "../../../../hooks";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { apiConfig } from "@/config/api.config";
 import { useCallApi } from "@/hooks";
@@ -36,6 +37,11 @@ const BenefitValue = <T extends BenefitFormType>({ periodType, setPeriodType }: 
   const offsetOfEffectiveDateUnit = watch("offsetOfEffectiveDateUnit");
   const durationOfAvailabilityUnit = watch("durationOfAvailabilityUnit");
   const relativePeriodUnit = watch("relativePeriodUnit");
+    const { selectedPriceVer, setSelectedPriceVer} = useSubscriptionPriceCreateContext();
+    const [isEffDateDisabled, setIsEffDateDisabled] = useState(false);
+    const [isExpDateDisabled, setIsExpDateDisabled] = useState(false);
+      const expiryDate = (selectedPriceVer as any)?.expDate;
+
 
   const [accountBalanceType, setAccountBalanceType] = useState<{ acctResId: string; acctResName: string }[]>([]);
 
@@ -380,20 +386,39 @@ const BenefitValue = <T extends BenefitFormType>({ periodType, setPeriodType }: 
               <div className="relative w-full">
                 <input
                   type="date"
-                  placeholder="Enter Absolute Effective Date"
-                  {...register("absoluteEffectiveDate", {
-                    required: "Absolute Effective Date is required",
-                  })}
-                  className={`border border-gray-300 rounded-md p-2 text-sm w-full ${errors.absoluteEffectiveDate ? "border-red-500" : ""}`}
+                  id="absoluteEffectiveDate"
+                  {...register("absoluteEffectiveDate")}
+                  className={`w-full transition-colors border border-gray-300 rounded-md text-sm p-2  ${errors.absoluteEffectiveDate ? "border-red-300 focus:border-red-500 focus:ring-red-200" : "focus:border-blue-500 focus:ring-blue-200"}`}
+                  disabled={isEffDateDisabled}
+                  min={expiryDate ? expiryDate : undefined}
+                  onChange={(e) => {
+                    setValue("absoluteEffectiveDate", e.target.value, {
+                      shouldValidate: true,
+                      shouldDirty: true,
+                    });
+
+                    const currentExpiry = watch("absoluteExpiryDate");
+                    if (currentExpiry && new Date(currentExpiry) < new Date(e.target.value)) {
+                      setValue("absoluteExpiryDate", null, {
+                        shouldValidate: true,
+                        shouldDirty: true,
+                      });
+                    }
+                  }}
                 />
               </div>
-              {errors.absoluteEffectiveDate && <p className="text-xs text-red-500 mt-1">{errors.absoluteEffectiveDate.message}</p>}
+              {errors.absoluteEffectiveDate && (
+                  <p className="text-red-500 text-xs flex items-center gap-1 mt-1">
+                    <span className="w-1 h-1 bg-red-500 rounded-full"></span>
+                    {errors.absoluteEffectiveDate.message}
+                  </p>
+                )}
             </div>
 
             <div className="flex flex-col">
               <label className="text-sm font-medium text-gray-700 mb-1">Absolute Expiry Date</label>
               <div className="relative w-full">
-                <input type="date" placeholder="Enter Absolute Expiry Date" {...register("absoluteExpiryDate")} className={`border border-gray-300 rounded-md p-2 text-sm w-full`} />
+                <input type="date" {...register("absoluteExpiryDate")} className="w-full transition-colors border border-gray-300 text-sm rounded-md p-2" disabled={isExpDateDisabled} min={watch("absoluteEffectiveDate") || undefined} />
               </div>
               {errors.absoluteExpiryDate && <p className="text-xs text-red-500 mt-1">{errors.absoluteExpiryDate.message}</p>}
             </div>

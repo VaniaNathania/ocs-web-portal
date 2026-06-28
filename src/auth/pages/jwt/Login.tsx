@@ -42,9 +42,6 @@ const Login = () => {
       setLoading(true);
 
       try {
-        // if (!login) {
-        //   throw new Error("JWTProvider is required for this form.");
-        // }
 
         await login(values.userName, values.password);
 
@@ -71,8 +68,7 @@ const Login = () => {
   });
 
   useEffect(() => {
-    //  console.log("ini");
-    // if (userData()?.access_token) window.location.href = "/";
+    
   }, []);
 
   const togglePassword = () => {
@@ -114,11 +110,7 @@ const Login = () => {
               placeholder="Enter Username"
               autoComplete="off"
               {...formik.getFieldProps("userName")}
-              // onKeyDown={(e) => {
-              //   if (e.key === "Enter") {
-              //     formik.handleSubmit();
-              //   }
-              // }}
+             
               className={clsx("form-control", {
                 "is-invalid": formik.touched.userName && formik.errors.userName,
               })}
@@ -166,27 +158,7 @@ const Login = () => {
             </span>
           )}
         </div>
-        {/* 
-        <div className="flex items-center justify-between gap-1">
-          <label className="checkbox-group">
-            <input
-              className="checkbox checkbox-sm"
-              type="checkbox"
-              {...formik.getFieldProps("remember")}
-            />
-            <span className="checkbox-label">Remember me</span>
-          </label>
-          <Link
-            to={
-              currentLayout?.name === "auth-branded"
-                ? "/auth/reset-password"
-                : "/auth/classic/reset-password"
-            }
-            className="text-2sm link shrink-0"
-          >
-            Forgot Password?
-          </Link>
-        </div> */}
+        
 
         <Button
           type="submit"

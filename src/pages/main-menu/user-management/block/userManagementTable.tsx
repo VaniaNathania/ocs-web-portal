@@ -112,19 +112,7 @@ export const UserManagementTable = () => {
         enableSorting: false,
         enableHiding: false,
       },
-      {
-              id: "Options",
-              enableSorting: false,
-              enableHiding: false,
-              header: ({ column }) => <DataGridColumnHeader title="Options" className="text-center" column={column} />,
-              cell: ({ row }) => {
-                return <UserMTableOps row={row.original} handleConfirm={setOnConfirm} handleDesc={setDesc} handleDialog={setShowConfirm} />;
-              },
-              meta: {
-                headerClassName: "max-w-[150px]",
-                cellClassName: "max-w-[150px] flex justify-center items-center",
-              },
-            },
+      
     ],
     [selectedRow],
   );

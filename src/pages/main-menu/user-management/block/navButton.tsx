@@ -19,24 +19,11 @@ export const NavBtn = () => {
     setShowIPLimit,
   } = useUserManagement();
 
-  const btn: btnItem[] = [
-    // {
-    //   name: "Show role",
-    //   func: () => setShowGrantRole(true),
-    // },
-    // {
-    //   name: "Show portal",
-    //   func: () => setShowGrantPortal(true),
-    // },
-    // {
-    //   name: "Show menu",
-    //   func: () => setShowGrantMenu(true),
-    // },
-    // {
-    //   name: "Show User History",
-    //   func: () => setShowUserHistory(true),
-    // },
-  ];
+  const btn: btnItem[] = [];
+
+if (btn.length === 0) {
+  return null;
+}
 
   const btnBuilder = (items: btnItem[]) => {
     return items.map((item) => {
@@ -52,9 +39,9 @@ export const NavBtn = () => {
       );
     });
   };
-  // return (
-  //     <div className="bg-white px-5 py-2 border-b-2">
-  //       {btn && btnBuilder(btn)}
-  //     </div>
-  //   );
+  return (
+      <div className="bg-white px-5 py-2 border-b-2">
+        {btnBuilder(btn)}
+      </div>
+    );
 };

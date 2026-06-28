@@ -55,10 +55,6 @@ const HeaderLogo = ({ headerSticky = false, isScrolled = false }: props) => {
       }
       const temp: Party[] = resp.data;
 
-      // console.log(temp);
-
-      // console.log("ini data nya", temp);
-
       return temp;
     } catch (error) {
       console.error("Failed to fetch All Dir");
@@ -152,19 +148,6 @@ const HeaderLogo = ({ headerSticky = false, isScrolled = false }: props) => {
 
   useEffect(() => {
     const temp: Party[] = [];
-
-    // allTab.forEach((tab) => {
-    //   const tempMenu: menuAuth | undefined = menus.find(
-    //     (m) => m.url === tab.path && m.readStatus === "Y",
-    //   );
-    //   if (tempMenu) {
-    //     temp.push({
-    //       ...tab,
-    //       id: tempMenu.privName,
-    //       title: tempMenu.privName,
-    //     });
-    //   }
-    // });
     HeaderAllDirQuery.data?.forEach((item) => {
       if (
         item.type === "1" &&
@@ -207,219 +190,20 @@ const HeaderLogo = ({ headerSticky = false, isScrolled = false }: props) => {
       <div className="flex items-center gap-3 min-w-fit relative">
 
         {/* Menu Dropdown minimalis */}
-        <Menu className="menu-default">
-          <MenuItem
-            toggle="dropdown"
-            trigger="hover"
-            dropdownProps={{
-              // placement: isRTL() ? "bottom-end" : "bottom-start",
-              placement: "top-start",
-              modifiers: [
-                {
-                  name: "offset",
-                  options: {
-                    offset: [0, 10],
-                  },
-                },
-              ],
-            }}
-          >
-            <MenuToggle
-              className={clsx(
-                "group relative rounded-lg transition-all duration-300",
-                isScrolled
-                  ? "hover:bg-red-50 dark:hover:bg-red-900/20"
-                  : "hover:bg-white/10",
-              )}
-            >
-              <div className="flex items-center gap-2.5">
-                <div className="flex items-center gap-2">
-                  <span
-                    className={clsx(
-                      "font-semibold text-base transition-colors duration-300",
-                      isScrolled
-                        ? "text-gray-900 dark:text-gray-100"
-                        : "text-white",
-                    )}
-                  >
-                    {activeTab}
-                  </span>
-                </div>
-
-                <MenuArrow>
-                  <div
-                    className={clsx(
-                      "transition-all duration-300",
-                      isScrolled
-                        ? "text-gray-700 dark:text-gray-300"
-                        : "text-white/90",
-                      "group-hover:rotate-180",
-                    )}
-                  >
-                    <KeenIcon icon="down" className="text-sm" />
-                  </div>
-                </MenuArrow>
-              </div>
-            </MenuToggle>
-
-            {/* Dropdown menu minimalis dengan scroll internal */}
-            <MenuSub
-              className={clsx(
-                "menu-default w-56",
-                "max-h-[calc(100vh-100px)]",
-                // "w-[calc(100vw-100px)]",
-
-                "overflow-y-auto overflow-x-visible",
-
-                "relative",
-
-                "shadow-lg border border-gray-200 dark:border-gray-700",
-                "bg-white dark:bg-coal-500",
-                "rounded-lg",
-              )}
-            >
-              {/* <div className="p-2 space-y-1"> */}
-              {/* {allTab.map((item, index) => {
-                const isActive = item.id === activeTab;
-
-                return (
-                  <MenuItem
-                    key={index}
-                    className={clsx(
-                      "transition-colors duration-200 rounded-md",
-                      isActive ? "" : "",
-                    )}
-                    onClick={() => openTab(item)}
-                  >
-                    <MenuLink
-                      // path={item.path}
-                      // path="#"
-                      className={clsx(
-                        "flex items-center gap-3 px-3 py-2.5",
-                        "text-sm font-medium transition-colors duration-200",
-                        isActive
-                          ? "text-white"
-                          : "text-gray-700 dark:text-gray-200",
-                      )}
-                    >
-                      <MenuTitle
-                        className={clsx(
-                          "flex-1 font-semibold",
-                          "transition-colors duration-200 rounded-md",
-                          isActive ? "!text-red-500" : "",
-                        )}
-                      >
-                        {item.title}
-                      </MenuTitle>
-
-                      {isActive && (
-                        <div className="w-1.5 h-1.5 rounded-full bg-white" />
-                      )}
-                    </MenuLink>
-                  </MenuItem>
-                );
-              })} */}
-              {/* {HeaderAllDirQuery.data
-                  ?.filter((item) => item.parentId === null)
-                  .map((item, index) => {
-                    // const isActive = item.partyId === activeTab;
-
-                    return (
-                      <MenuItem
-                        key={index}
-                        className={clsx(
-                          "transition-colors duration-200 rounded-md",
-                          // isActive ? "" : "",
-                        )}
-                        // onClick={() => openTab(item)}
-                      >
-                        <MenuLink
-                          className={clsx(
-                            "flex items-center gap-3 px-3 py-2.5",
-                            "text-sm font-medium transition-colors duration-200",
-                            // isActive
-                            //   ? "text-white"
-                            //   : "text-gray-700 dark:text-gray-200",
-                          )}
-                        >
-                          <MenuTitle
-                            className={clsx(
-                              "flex-1 font-semibold",
-                              "transition-colors duration-200 rounded-md",
-                              // isActive ? "!text-red-500" : "",
-                            )}
-                          >
-                            {item.name}
-                          </MenuTitle>
-
-
-                        </MenuLink>
-                        <MenuSub
-                          className={clsx(
-                            "menu-default w-48",
-                            "shadow-lg border border-gray-200 dark:border-gray-700",
-                            "bg-white dark:bg-coal-500",
-                            "rounded-lg",
-                          )}
-                        >
-                          {getDirChild(item.partyId)?.map((child, childIndex) => (
-                            <MenuItem key={childIndex}>
-                              <MenuLink
-                                // path={child.path}
-                                className={clsx(
-                                  "flex items-center gap-2 px-3 py-2",
-                                  "text-sm font-medium transition-colors duration-200",
-                                  // pathname === child.path
-                                  //   ? "text-red-500 bg-red-50 dark:bg-red-900/20"
-                                  //   : "text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700",
-                                )}
-                              >
-                                <MenuTitle>{child.name}</MenuTitle>
-                              </MenuLink>
-                            </MenuItem>
-                          ))}
-                        </MenuSub>
-                      </MenuItem>
-                    );
-                  })} */}
-
-              {/* </div> */}
-              {RenderMenu(null)}
-            </MenuSub>
-          </MenuItem>
-        </Menu>
+        <div
+  className={clsx(
+    "flex items-center",
+    "font-semibold text-base",
+    isScrolled
+      ? "text-gray-900 dark:text-gray-100"
+      : "text-white",
+  )}
+>
+  {activeTab}
+</div>
       </div>
 
       <div className="flex flex-col w-full relative">
-        <label className="input input-sm w-full flex items-center gap-2 bg-white">
-          <KeenIcon icon="magnifier" />
-          <Input
-            type="text"
-            placeholder="Module name.."
-            size={"sm"}
-            className="w-full border-none"
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              if (!showSuggestions) setShowSuggestions(true);
-            }}
-            // onKeyDownCapture={(e) => {
-            //   if (e.key === "Enter") setShowSuggestions(true);
-            // }}
-            onBlur={() => setShowSuggestions(false)} // delay so click still works
-            onFocus={() => search && setShowSuggestions(true)}
-          />
-          {search && (
-            <Button
-              size={"sm"}
-              variant={"ghost"}
-              className="p-1 w-[14px] h-[14px]"
-              onClick={() => setSearch("")}
-            >
-              <KeenIcon icon="cross" />
-            </Button>
-          )}
-        </label>
 
         {/* Suggestions Dropdown */}
         {showSuggestions && suggestions.length > 0 && (

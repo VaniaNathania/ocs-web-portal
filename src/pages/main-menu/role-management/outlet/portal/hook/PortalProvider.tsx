@@ -147,43 +147,6 @@ export const PortalListProvider = ({
       }
   };
 
-  // const handlePutAllAvalaibleToOwned = async () => {
-  //   try {
-  //   //  console.log("🚀 Editing role with data:", availablePortal);
-
-  //     const response = await PutData(
-  //       "${API_URL}/api/roles/prod/roles",
-  //       availablePortal
-  //     );
-
-  //   //  console.log("📦 API Response:", response);
-
-  //     if (response?.status) {
-  //       toast.success("Role portals edited successfully!");
-
-  //       const createActivity = {
-  //         module: "Manage Role Management",
-  //         description: `Edit Role Portals=> ${selectedRow?.roleName}`,
-  //         action: "E",
-  //       };
-  //       doSaveLogActivity(createActivity);
-
-  //     //  console.log("✅ Role portals edited successfully");
-  //     } else {
-  //       const errorMessage =
-  //         response?.message || "Failed to create role. Please try again.";
-  //       toast.error(errorMessage);
-  //       console.error("❌ API returned error:", response);
-  //     }
-  //   } catch (error: any) {
-  //     const errorMessage =
-  //       error?.message || "Something went wrong. Please try again.";
-  //     toast.error(errorMessage);
-  //     console.error("❌ Error creating role:", error);
-  //   } finally {
-  //     fetchAll();
-  //   }
-  // };
 
   const handleEditDialog = (open: boolean) => {
     setShowEditDialog(open);

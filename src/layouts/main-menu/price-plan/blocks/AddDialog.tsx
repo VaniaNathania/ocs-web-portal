@@ -595,7 +595,6 @@ const AddDialog = () => {
                     </SelectTrigger>
                     <SelectContent className="z-[9999]">
                       <SelectItem value="1">Share From</SelectItem>
-                      <SelectItem value="0">Copy From</SelectItem>
                     </SelectContent>
                   </Select>
                   {errors.version?.sourceFrom && (

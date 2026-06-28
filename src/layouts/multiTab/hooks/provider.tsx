@@ -56,14 +56,6 @@ import {
 } from "./tabRegistry";
 import { MultiTabContext } from "./multiTabContext";
 
-const home: tabItem = {
-  id: "home",
-  title: "Price Plan",
-  component: PricePlanLayout,
-  closable: false,
-  path: "/dashboards/home/DashboardHomePage",
-};
-
 const profile: tabItem = {
   id: "Profile",
   closable: true,
@@ -78,37 +70,80 @@ const API_ROLE = apiConfigRole.role;
 interface MultiTabProviderProps {
   children: ReactNode;
 }
+
 export const MultiTabProvider = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
   const { userData } = useAuthContext();
+
+  const getInitialHome = (): tabItem => {
+  
+    const username = userData()?.user?.name;
+
+  console.log("Current User :", username);
+  const isSuperAdmin = userData()?.user?.name === "Administrator";
+    console.log("Is Super Admin :", isSuperAdmin);
+
+  if (isSuperAdmin) {
+    return {
+      id: "Home",
+      title: "Dashboard",
+      component: DashboardHomePage,
+      closable: false,
+      path: "/dashboards/home/DashboardHomePage",
+    };
+  }
+
+  return {
+    id: "Home",
+    title: "Price Plan",
+    component: PricePlanLayout,
+    closable: false,
+    path: "/main-menu/price-plan/PricePlanLayoutMt",
+  };
+};
+
   const { GetData } = useCallApi();
   const [popUpProfile, setPopUpProfile] = useState<boolean>(false);
-  const [tabs, setTabs] = useState<tabItem[]>([home]);
+  const [tabs, setTabs] = useState<tabItem[]>([
+  getInitialHome(),
+]);
   const [activePortal, setActivePortal] = useState<PortalData>();
   // const [allTab, setAllTab] = useState<tabItem[]>(initialAllTab);
 
   const fetchPortalMenus = async (): Promise<PortalData[]> => {
-    try {
-      const res = await GetData(
-        `${API_ROLE}/api/users/${userData()?.user.id}/user/portals`,
-        {},
-      );
-      if (!res?.status || !res?.data) {
-        throw new Error(
-          res?.message || "Failed to fetch available portal data",
-        );
-      }
-      // console.log(res.data);
-      setActivePortal(res.data[0]);
+  try {
 
-      return res.data;
-    } catch (error: any) {
-      throw new Error(error.message || "Error fetching available menus");
+    console.log("USER DATA:", userData());
+    console.log("USER OBJECT:", userData()?.user);
+
+    const res = await GetData(
+      `${API_ROLE}/api/users/${userData()?.user.id}/user/portals`,
+      {},
+    );
+
+    if (!res?.status || !res?.data) {
+      throw new Error(
+        res?.message || "Failed to fetch available portal data",
+      );
     }
-  };
+
+
+    // ambil data portal dari API dulu
+    let portals = res.data;
+
+    setActivePortal(portals[0]);
+
+
+    return portals;
+
+
+  } catch (error: any) {
+    throw new Error(error.message || "Error fetching available menus");
+  }
+};
 
   const userPortalQuery: UseQueryResult<PortalData[]> = useQuery({
     queryKey: ["user-portal-header", userData],
@@ -117,11 +152,11 @@ export const MultiTabProvider = ({
     refetchOnWindowFocus: false,
   });
 
-  const [activeTab, setActiveTab] = useState("home");
+  const [activeTab, setActiveTab] = useState("Home");
 
   const openHome = () => {
-    openTab(home);
-  };
+  openTab(getInitialHome());
+};
 
   const openByPath = (party: Party) => {
     const tab: tabItem | undefined = allTabs.find(

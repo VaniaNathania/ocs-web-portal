@@ -537,7 +537,7 @@ const AddAccountDialog = () => {
                 {/* Source From */}
                 <div className="space-y-2">
                   <label className="block text-sm font-medium text-gray-700">
-                    Source From
+                    Source F
                   </label>
                   <Select
                     value={watch("version.sourceFrom")}
@@ -564,7 +564,7 @@ const AddAccountDialog = () => {
                   <div className="space-y-4">
                     <div className="space-y-2">
                       <label className="block text-sm font-medium text-gray-700">
-                        Copy From
+                        Co From
                       </label>
                       <Select
                         value={String(watch("version.oldPricePlanVerId")) ?? ""}

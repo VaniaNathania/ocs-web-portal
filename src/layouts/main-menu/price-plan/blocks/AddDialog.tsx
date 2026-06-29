@@ -568,28 +568,19 @@ const AddDialog = () => {
 
                 {/* Source From */}
                 <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-700">
-                    Source From
-                  </label>
-                  <Select
-                    value={watch("version.sourceFrom")}
-                    onValueChange={(value) =>
-                      setValue("version.sourceFrom", value)
-                    }
-                  >
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select source from" />
-                    </SelectTrigger>
-                    <SelectContent className="z-[9999]">
-                      <SelectItem value="1">Share From</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  {errors.version?.sourceFrom && (
-                    <p className="text-xs text-red-500">
-                      {errors.version?.sourceFrom.message}
-                    </p>
-                  )}
-                </div>
+            <label className="block text-sm font-medium text-gray-700">
+              Source From
+            </label>
+
+            <div
+              className="
+                flex h-10 w-full items-center rounded-md border
+                border-input bg-muted px-3 text-sm text-gray-700
+              "
+            >
+              Share From
+            </div>
+          </div>
 
                 {watch("version.sourceFrom") === "0" && (
                   <div className="space-y-4">

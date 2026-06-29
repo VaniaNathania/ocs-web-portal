@@ -66,6 +66,7 @@ const VersionDialog: React.FC<VersionDialogProps> = ({
   const fetchCopyFrom = async () => {
     if (!isOpen) return;
 
+
   };
 
   useEffect(() => {
@@ -313,50 +314,16 @@ const VersionDialog: React.FC<VersionDialogProps> = ({
             <label className="block text-sm font-medium text-gray-700">
               Source From
             </label>
-            <Select
-              value={formData.sourceFrom}
-              onValueChange={(value) => handleInputChange("sourceFrom", value)}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select source from" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="1">Share From</SelectItem>
-                <SelectItem value="0">Copy From</SelectItem>
-              </SelectContent>
-            </Select>
-            {errors.sourceFrom && (
-              <p className="text-xs text-red-500">{errors.sourceFrom}</p>
-            )}
-          </div>
 
-          {formData.sourceFrom === "0" && (
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">
-                Copy From
-              </label>
-              <Select
-                value={String(formData.oldPricePlanId) || ""}
-                onValueChange={(value) =>
-                  handleInputChange("oldPricePlanId", Number(value))
-                }
-              >
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select Copy From" />
-                </SelectTrigger>
-                <SelectContent>
-                  {copyFrom.map((item, index: number) => (
-                    <SelectItem key={index} value={String(item.pricePlanId)}>
-                      {item.pricePlanName} - From {item.effDate}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {errors.oldPricePlanId && (
-                <p className="text-xs text-red-500">{errors.oldPricePlanId}</p>
-              )}
+            <div
+              className="
+                flex h-10 w-full items-center rounded-md border
+                border-input bg-muted px-3 text-sm text-gray-700
+              "
+            >
+              Share From
             </div>
-          )}
+          </div>
 
           {/* Footer */}
           <div className="flex justify-end gap-3 pt-4 border-t">

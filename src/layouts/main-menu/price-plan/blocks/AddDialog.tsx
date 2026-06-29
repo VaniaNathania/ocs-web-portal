@@ -150,20 +150,7 @@ const AddDialog = () => {
     };
 
     const fetchCopyFrom = async () => {
-      try {
-        const response = await GetData(
-          `${API_URL}/priceplan/copyFrom/list`,
-          {}
-        );
-
-        if (response.status) {
-          setCopyFrom(response.data);
-        } else {
-          toast.error(response.message);
-        }
-      } catch (error) {
-        toast.error("Error GET Copy From Data");
-      }
+  
     };
 
     fetchServiceType(1, 100);
@@ -606,31 +593,7 @@ const AddDialog = () => {
 
                 {watch("version.sourceFrom") === "0" && (
                   <div className="space-y-4">
-                    <div className="space-y-2">
-                      <label className="block text-sm font-medium text-gray-700">
-                        Copy From
-                      </label>
-                      <Select
-                        value={String(watch("version.oldPricePlanVerId")) ?? ""}
-                        onValueChange={(value) =>
-                          setValue("version.oldPricePlanVerId", Number(value))
-                        }
-                      >
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Select Copy From" />
-                        </SelectTrigger>
-                        <SelectContent className="z-[9999]">
-                          {copyFrom.map((item, index: number) => (
-                            <SelectItem
-                              key={index}
-                              value={String(item.offerVerId)}
-                            >
-                              {item.pricePlanName} - From {item.effDate}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
+                    
 
                     {watch("version.oldPricePlanVerId") && (
                       <div className="space-y-4 p-4 bg-gray-50 rounded-lg">

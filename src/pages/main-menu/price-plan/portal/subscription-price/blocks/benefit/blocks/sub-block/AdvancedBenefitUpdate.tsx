@@ -115,82 +115,14 @@ const AdvancedBenefitComponent: React.FC<Props> = ({
   }, [formField]);
 
   const fetchScriptList = async () => {
-    try {
-      const res = await GetData(`${API_URL}/script-templet/list`, {});
-      setScriptList(res?.data || []);
-    } catch (error) {
-      console.error("Failed to fetch script templates:", error);
-      toast.error("Failed to fetch script templates");
-    }
+    
   };
 
   const fetchScriptDetail = async (
     scriptTempletId: number,
     isTemplateChange: boolean | null = false
   ) => {
-    try {
-      const res = await GetData(
-        `${API_URL}/script-templet/${scriptTempletId}`,
-        {}
-      );
-      const templateData = res.data;
-      setSelectedTemplate(templateData);
-
-      // If this is a template change, always use fresh template content
-      // If this is initial load, use scriptToChange if it exists, otherwise use template content
-      const xmlToParse = isTemplateChange
-        ? templateData.templetContent
-        : scriptToChange && scriptToChange.trim() !== ""
-          ? scriptToChange
-          : templateData.templetContent;
-
-      const parser = new XMLParser({
-        ignoreAttributes: false,
-        attributeNamePrefix: "",
-      });
-
-      const parsed = parser.parse(xmlToParse);
-
-      const properties =
-        parsed?.zsmart?.Properties?.Property ||
-        parsed?.Properties?.Property ||
-        [];
-
-      const normalizedProperties: TemplateProperty[] = Array.isArray(properties)
-        ? properties
-        : [properties];
-
-      setTemplateFields(normalizedProperties);
-
-      // Get values from parsed.Properties.value.group.item
-      const valueItems =
-        parsed?.Properties?.value?.group?.item ||
-        parsed?.zsmart?.Properties?.value?.group?.item ||
-        [];
-
-      // Create initial values object from the value items
-      const initialValues = normalizedProperties.reduce(
-        (acc, prop) => {
-          // Find corresponding value item
-          const valueItem = Array.isArray(valueItems)
-            ? valueItems.find((item) => item.id === prop.id)
-            : valueItems.id === prop.id
-              ? valueItems
-              : null;
-
-          // Use value from valueItem if found, otherwise use default
-          acc[prop.id] = valueItem?.value || prop.defaultValue || "";
-          return acc;
-        },
-        {} as Record<string, string>
-      );
-
-      setDynamicValues(initialValues);
-      updateFormFieldsWithValues(templateData, scriptTempletId, initialValues);
-    } catch (error) {
-      console.error("Failed to fetch script template detail:", error);
-      toast.error("Failed to fetch script template detail");
-    }
+    
   };
 
   const updateFormFieldsWithValues = (

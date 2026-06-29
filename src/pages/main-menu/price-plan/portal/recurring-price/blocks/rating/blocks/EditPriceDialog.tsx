@@ -151,12 +151,7 @@ const EditPriceDialog = () => {
   };
 
   const GetScriptTemplate = async () => {
-    try {
-      const response = await GetData(`${API_URL}/script-templet/list`, {});
-      setScriptTemplate(response?.data);
-    } catch (error) {
-      console.error("Error fetching script template data:", error);
-    }
+    
   };
 
   const defaultBaseForm = () => {

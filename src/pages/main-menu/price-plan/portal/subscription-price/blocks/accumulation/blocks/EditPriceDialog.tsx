@@ -165,23 +165,7 @@ const EditPriceDialog = () => {
 
           if (scriptTempletId) {
             // Template-based: ambil dari script template dan inject values
-            try {
-              const tmplRes = await GetData(`${API_URL}/script-templet/${scriptTempletId}`, {});
-              const tmpl = tmplRes?.data;
-
-              if (tmpl?.templetTypeScript) {
-                ruleScript = tmpl.templetTypeScript;
-                // Inject values ke template
-                Object.entries(values).forEach(([k, v]) => {
-                  const regex = new RegExp(`&${k}&`.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g");
-                  ruleScript = ruleScript.replace(regex, v);
-                });
-              }
-            } catch (tmplErr) {
-              console.error("Failed to fetch script template:", tmplErr);
-              // Fallback: gunakan existing ruleScript
-              ruleScript = existingRuleScript || "";
-            }
+            
           } else {
             // Direct script: ambil langsung dari field ruleScript
             ruleScript = existingRuleScript || "";
@@ -316,12 +300,7 @@ const EditPriceDialog = () => {
   };
 
   const GetScriptTemplate = async () => {
-    try {
-      const response = await GetData(`${API_URL}/script-templet/list`, {});
-      setScriptTemplate(response?.data);
-    } catch (error) {
-      console.error("Error fetching script template data:", error);
-    }
+    
   };
 
   const DoUpdateVersion = async (formField: SubscriptionUpdateAcmFormType) => {

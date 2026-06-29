@@ -85,10 +85,7 @@ export const addLogActivity = async (
         partId: 1,
       };
 
-      const resp = await axios.post(
-        `${API_URL_LOG}/api/log-management/addLog`,
-        payload,
-      );
+      
       return;
     }
   } catch (error: any) {

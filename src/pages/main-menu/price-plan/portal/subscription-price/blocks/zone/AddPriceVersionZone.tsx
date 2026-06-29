@@ -132,7 +132,7 @@ const AddPriceVersionZone = () => {
     setIsSubmitting(true);
     try {
       const response = await PostData(
-        `${API_URL}/price/create?reType/3`,
+        `${API_URL}/price/create?reType=3`,
         formField,
       );
 

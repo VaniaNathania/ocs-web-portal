@@ -108,95 +108,6 @@ const EditPriceDialog = () => {
   };
 
   // Robust expression price processing logic
-  const processExpressionPriceData = useCallback(
-    async (expressionPriceRes: any) => {
-      try {
-        // Handle berbagai struktur response
-        let expressionData = null;
-
-        if (expressionPriceRes?.status && expressionPriceRes?.data) {
-          // Jika data adalah array, ambil item pertama
-          if (Array.isArray(expressionPriceRes.data)) {
-            expressionData = expressionPriceRes.data[0];
-          } else {
-            expressionData = expressionPriceRes.data;
-          }
-        }
-
-        if (!expressionData) {
-          //  console.log("No expression data found");
-          return null;
-        }
-
-        // Set scriptToChange untuk ExpressionPriceComponent
-        setScriptToChange(expressionData?.scriptPage || "");
-
-        const { scriptTempletId, ruleComments, scriptPage, ruleScript: existingRuleScript } = expressionData;
-
-        let exprData: ExpressionPrice | null = null;
-
-        try {
-          // Parse XML scriptPage untuk template-based scenario
-          const parser = new XMLParser({
-            ignoreAttributes: false,
-            attributeNamePrefix: "",
-          });
-          const parsed = parser.parse(scriptPage || "<Properties/>");
-
-          const props = parsed?.Properties?.Property || [];
-          const items = parsed?.Properties?.value?.group?.item || [];
-          const arrProps = Array.isArray(props) ? props : [props];
-          const arrItems = Array.isArray(items) ? items : [items];
-
-          // Ambil map id -> value untuk template-based
-          const values: Record<string, string> = {};
-          arrProps.forEach((p: any) => {
-            if (p?.id) {
-              const item = arrItems.find((i: any) => i.id === p.id);
-              values[p.id] = (item?.value ?? p.defaultValue ?? "").toString();
-            }
-          });
-
-          // Bentuk jsonScriptPage - hanya untuk template-based
-          const jsonScriptPage = scriptTempletId ? JSON.stringify([{ "": values }]) : null;
-
-          // Logic untuk ruleScript
-          let ruleScript = "";
-
-          if (scriptTempletId) {
-            // Template-based: ambil dari script template dan inject values
-            
-          } else {
-            // Direct script: ambil langsung dari field ruleScript
-            ruleScript = existingRuleScript || "";
-          }
-
-          // Buat object expression data
-          exprData = {
-            scriptTempletId,
-            ruleComment: ruleComments,
-            ruleScript,
-            jsonScriptPage,
-          };
-        } catch (parseError) {
-          console.error("Expression price parse error:", parseError);
-          // Fallback: tetap buat object dengan data minimal
-          exprData = {
-            scriptTempletId,
-            ruleComment: ruleComments,
-            ruleScript: existingRuleScript || "",
-            jsonScriptPage: null,
-          };
-        }
-
-        return exprData;
-      } catch (error) {
-        console.error("Failed to process expression price data:", error);
-        return null;
-      }
-    },
-    [GetData],
-  );
 
   // Fixed FetchDetailData dengan robust handling
   const FetchDetailData = useCallback(
@@ -210,27 +121,11 @@ const EditPriceDialog = () => {
         const fetcDataMandatory = GetData(`${API_URL}/price/accumulation/list?priceId=${selectedPrice}`, {});
 
         // Multiple API attempts untuk expression price
-        let fetchExpressionPrice;
 
-        // Coba berbagai endpoint yang mungkin
-        if (selectedPriceVer?.priceVerId) {
-          fetchExpressionPrice = GetData(`${API_URL}/price/acm-expression/list`, {
-            priceVerId: selectedPriceVer.priceVerId,
-            spId: 0,
-          })
-            .catch(() => {
-              // Fallback ke endpoint lain
-              return GetData(`${API_URL}/rankprice/expression-price/${selectedPrice}`, {});
-            })
-            .catch(() => {
-              // Fallback lagi ke endpoint accumulation
-              return GetData(`${API_URL}/rankprice/acm-calc/${selectedPrice}`, {});
-            });
-        } else {
-          fetchExpressionPrice = GetData(`${API_URL}/rankprice/expression-price/${selectedPrice}`, {});
-        }
-
-        const [res1, res2] = await Promise.all([fetcDataMandatory, fetchExpressionPrice, minDelay]);
+        const [res1] = await Promise.all([
+  fetcDataMandatory,
+  minDelay,
+]);
 
         // Handle main accumulation data
         if (res1.status && Array.isArray(res1.data) && res1.data.length > 0) {
@@ -250,19 +145,6 @@ const EditPriceDialog = () => {
         }
 
         // Handle expression price data dengan robust processing
-        const processedExpressionData = await processExpressionPriceData(res2);
-
-        if (processedExpressionData) {
-          setValue("expressionPrice", processedExpressionData);
-        } else {
-          // Set default empty expression price
-          setValue("expressionPrice", {
-            scriptTempletId: null,
-            ruleComment: null,
-            ruleScript: null,
-            jsonScriptPage: null,
-          });
-        }
       } catch (error) {
         console.error("Error fetching detail data:", error);
         toast.error("Something went wrong while fetching data");
@@ -278,7 +160,7 @@ const EditPriceDialog = () => {
         setIsLoading(false);
       }
     },
-    [selectedPriceVer, processExpressionPriceData, setValue],
+    [selectedPriceVer, setValue],
   );
 
   const GetCalculateUnit = async () => {

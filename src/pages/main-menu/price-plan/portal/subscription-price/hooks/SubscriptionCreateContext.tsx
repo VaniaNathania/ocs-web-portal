@@ -528,7 +528,7 @@ const SubscriptionPriceCreateContextProvider = ({
           break;
 
         case "priceRating":
-          endpoint = `${API_URL}/price/delete?priceId=${itemId}&priceVerId=${selectedPriceVer?.priceVerId}&reType/3`;
+          endpoint = `${API_URL}/price/delete?priceId=${itemId}&priceVerId=${selectedPriceVer?.priceVerId}&reType=3`;
           successMessage = "Price deleted successfully";
           break;
 

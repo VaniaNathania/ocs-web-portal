@@ -1,7 +1,6 @@
 import z from "zod";
 import { recurringCreateMappingSchema } from "../../types/form";
 import { apiConfig } from "@/config/api.config";
-import { error } from "console";
 import { useCallApi } from "@/hooks";
 import { useRecurringPriceContext } from "../../hooks";
 import { useEffect, useState } from "react";

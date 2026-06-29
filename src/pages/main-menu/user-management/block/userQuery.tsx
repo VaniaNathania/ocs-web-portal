@@ -60,19 +60,7 @@ export const UserQuery = () => {
 
   const fetchPortalList = async () => {
     setLoading(true);
-    try {
-      const response = await GetData(`${API_ROLE}/api/portals/portals`, {});
-
-      if (!response.status) {
-        throw Error(response.message);
-      }
-
-      setPortals(response.data);
-    } catch (error) {
-      throw error;
-    } finally {
-      setLoading(false);
-    }
+    
   };
 
   useEffect(() => {

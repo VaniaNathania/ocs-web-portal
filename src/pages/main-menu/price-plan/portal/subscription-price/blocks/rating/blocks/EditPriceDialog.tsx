@@ -13,10 +13,7 @@ import { z } from "zod";
 import { subscriptionUpdatePriceRatingSchema } from "../types/form";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import ExpressionPrice from "./ExpressionPrice";
-import ExpressionPriceComponent from "./UpdateExpressionPrice";
 import AccountItemSearchSelect from "../../SelectSearchAccountItemType";
-import { XMLParser } from "fast-xml-parser";
 import { AcctConfService } from "@/common/api/account-config/endpoints";
 import { PricePlanService } from "@/common/api/price-plan/endpoints";
 import { NumericFormat } from "react-number-format";
@@ -24,15 +21,6 @@ import { NumericFormat } from "react-number-format";
 const API_URL = apiConfig.service_price_plan;
 
 // Helper function untuk inject values ke script template
-const injectValuesToScript = (script: string, values: Record<string, string>): string => {
-  let updatedScript = script;
-  Object.entries(values).forEach(([key, value]) => {
-    const placeholder = `&${key}&`;
-    const regex = new RegExp(placeholder.replace(/[.*+?^${}()|[\\]\\]/g, "\\$&"), "g");
-    updatedScript = updatedScript.replace(regex, value);
-  });
-  return updatedScript;
-};
 
 export type SubscriptionUpdatePriceRatingForm = z.infer<typeof subscriptionUpdatePriceRatingSchema>;
 
@@ -90,9 +78,7 @@ const EditPriceDialog = () => {
 
   const [accountTypes, setAccountTypes] = useState<{ id: number; acctItemTypeName: string }[]>([]);
   const [calculateUnit, setCalculateUnit] = useState<{ id: number; reAttrName: string }[]>([]);
-  const [scriptTemplate, setScriptTemplate] = useState<{ scriptTempletId: string; scriptTempletName: string }[]>([]);
 
-  const [scriptToChange, setScriptToChange] = useState<string>("");
   const [detailPrice, setDetailPrice] = useState<any | null>(null);
 
   const effectiveDate = (selectedPriceVer as any)?.effDate;
@@ -100,16 +86,7 @@ const EditPriceDialog = () => {
 
   const resetForm = () => {
     reset();
-    setScriptToChange("");
     setDetailPrice(null);
-  };
-
-  const GetScriptTemplate = async () => {
-    
-  };
-
-  const GetScriptContent = async (scriptId: number) => {
-    
   };
 
   const getCalculateUnit = async () => {
@@ -139,82 +116,6 @@ const EditPriceDialog = () => {
   };
 
   // Robust expression price processing logic dari file 1
-  const processExpressionPriceData = useCallback(
-    async (expressionPriceRes: any) => {
-      try {
-        // Handle jika response adalah array, ambil item pertama
-        const expressionData = Array.isArray(expressionPriceRes?.data) ? expressionPriceRes.data[0] : expressionPriceRes?.data;
-
-        setScriptToChange(expressionData?.scriptPage || "");
-
-        if (expressionData) {
-          const { scriptTempletId, ruleComments, scriptPage, ruleScript: existingRuleScript } = expressionData;
-
-          let exprData: ExpressionPrice | null = null;
-
-          try {
-            // Parse XML scriptPage untuk template-based scenario
-            const parser = new XMLParser({
-              ignoreAttributes: false,
-              attributeNamePrefix: "",
-            });
-            const parsed = parser.parse(scriptPage || "<Properties/>");
-
-            const props = parsed?.Properties?.Property || [];
-            const items = parsed?.Properties?.value?.group?.item || [];
-            const arrProps = Array.isArray(props) ? props : [props];
-            const arrItems = Array.isArray(items) ? items : [items];
-
-            // Ambil map id -> value untuk template-based
-            const values: Record<string, string> = {};
-            arrProps.forEach((p: any) => {
-              const item = arrItems.find((i: any) => i.id === p.id);
-              values[p.id] = (item?.value ?? p.defaultValue ?? "").toString();
-            });
-
-            // Bentuk jsonScriptPage - hanya untuk template-based
-            const jsonScriptPage = scriptTempletId ? JSON.stringify([{ "": values }]) : null;
-
-            // Logic untuk ruleScript
-            let ruleScript = "";
-
-            if (scriptTempletId) {
-              // Template-based: ambil dari script template dan inject values
-              
-            } else {
-              // Direct script: ambil langsung dari field ruleScript
-              ruleScript = existingRuleScript || "";
-            }
-
-            // Buat object expression data
-            exprData = {
-              scriptTempletId,
-              ruleComment: ruleComments,
-              ruleScript,
-              jsonScriptPage,
-            };
-          } catch (parseError) {
-            console.error("Expression price parse error:", parseError);
-            // Fallback: tetap buat object dengan data minimal
-            exprData = {
-              scriptTempletId,
-              ruleComment: ruleComments,
-              ruleScript: existingRuleScript || "",
-              jsonScriptPage: null,
-            };
-          }
-
-          return exprData;
-        }
-
-        return null;
-      } catch (error) {
-        console.error("Failed to process expression price data:", error);
-        return null;
-      }
-    },
-    [GetData],
-  );
 
   // Updated fetchDefaultValue dengan robust logic
   const fetchDefaultValue = useCallback(
@@ -225,12 +126,14 @@ const EditPriceDialog = () => {
         const minDelay = new Promise((resolve) => setTimeout(resolve, 300));
 
         // Fetch main price data
-        const fetchMainData = GetData(`${API_URL}/price/detail/${selectedPrice}`, {});
+        const fetchMainData = GetData(
+  `${API_URL}/price/detail/${selectedPrice}`,
+  {},
+);
 
-        // Fetch expression price data - gunakan API subscription
-        const fetchExpressionPrice = GetData(`${API_URL}/rankprice/expression-price/subs-price/${selectedPrice}`, {});
+const mainResponse = await fetchMainData;
 
-        const [mainResponse, expressionResponse] = await Promise.all([fetchMainData, fetchExpressionPrice, minDelay]);
+await minDelay;
 
         // Handle main price data
         if (mainResponse.status) {
@@ -249,29 +152,6 @@ const EditPriceDialog = () => {
         }
 
         // Process expression price data dengan robust logic
-        if (expressionResponse.status && expressionResponse.data) {
-          const processedExpressionData = await processExpressionPriceData(expressionResponse);
-
-          if (processedExpressionData) {
-            setValue("expressionPrice", processedExpressionData);
-          } else {
-            // Set default empty expression price jika tidak ada data
-            setValue("expressionPrice", {
-              scriptTempletId: null,
-              ruleComment: null,
-              ruleScript: null,
-              jsonScriptPage: null,
-            });
-          }
-        } else {
-          // Set default empty expression price jika API gagal
-          setValue("expressionPrice", {
-            scriptTempletId: null,
-            ruleComment: null,
-            ruleScript: null,
-            jsonScriptPage: null,
-          });
-        }
       } catch (error) {
         console.error("Error fetching price data:", error);
         toast.error("Something went wrong while fetching data");
@@ -287,13 +167,13 @@ const EditPriceDialog = () => {
         setIsLoading(false);
       }
     },
-    [processExpressionPriceData, setValue],
+    [setValue],
   );
 
   const doUpdatePrice = async (formField: SubscriptionUpdatePriceRatingForm, priceId: number) => {
     setIsSubmitting(true);
     try {
-      const response = await PutData(`${API_URL}/price/update/${priceId}?reType/3`, formField);
+      const response = await PutData(`${API_URL}/price/update/${priceId}?reType=3`, formField);
 
       if (response?.status) {
         setSelectedMapping(null);
@@ -329,7 +209,6 @@ const EditPriceDialog = () => {
   useEffect(() => {
     getAccountItemType();
     getCalculateUnit();
-    GetScriptTemplate();
   }, []);
 
   useEffect(() => {
@@ -343,14 +222,6 @@ const EditPriceDialog = () => {
       fetchDefaultValue(selectedPrice);
     }
   }, [selectedPrice, fetchDefaultValue]);
-
-  const selectedScriptTemplateId = watch("expressionPrice.scriptTempletId");
-
-  useEffect(() => {
-    if (selectedScriptTemplateId) {
-      GetScriptContent(Number(selectedScriptTemplateId));
-    }
-  }, [selectedScriptTemplateId]);
 
   return (
     <Dialog open={showEditPriceDialog} onOpenChange={(open) => handleEditPriceDialog(open, null)}>
@@ -503,17 +374,6 @@ const EditPriceDialog = () => {
                         <SelectValue placeholder="Select unit type" />
                       </SelectTrigger>
                       <SelectContent className="bg-white border border-gray-200 rounded-md shadow-lg">
-                        {/* {calculateUnit.length > 0 ? (
-                        calculateUnit.map((item) => (
-                          <SelectItem
-                            key={item.id}
-                            value={item.id.toString()}
-                            className="cursor-pointer"
-                          >
-                            {item.reAttrName}
-                          </SelectItem>
-                        ))
-                      ) : ( */}
                         <SelectItem value="101" className="cursor-pointer">
                           Occurance
                         </SelectItem>

@@ -65,10 +65,7 @@ const BenefitValue = <T extends BenefitFormType>({ periodType, setPeriodType }: 
 
   const fetchEventFeature = async () => {
     try {
-      const response = await GetData(`${API_URL}/mapping/re-attr/list`, {
-        reType: 3,
-        spId: 0,
-      });
+      const response = await GetData(`${API_URL}/price-version/re-attr/list`, {}, );
 
       if (response.status) {
         setEventFeaturesType(response.data);

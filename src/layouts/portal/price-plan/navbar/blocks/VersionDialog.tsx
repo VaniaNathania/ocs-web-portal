@@ -66,17 +66,6 @@ const VersionDialog: React.FC<VersionDialogProps> = ({
   const fetchCopyFrom = async () => {
     if (!isOpen) return;
 
-    try {
-      const response = await GetData(`${API_URL}/priceplan/copyFrom/list`, {});
-
-      if (response.status) {
-        setCopyFrom(response.data);
-      } else {
-        toast.success(response.message);
-      }
-    } catch (error) {
-      toast.error("Error GET Copy From Data");
-    }
   };
 
   useEffect(() => {

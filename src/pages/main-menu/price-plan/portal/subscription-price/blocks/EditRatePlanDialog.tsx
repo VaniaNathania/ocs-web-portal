@@ -135,63 +135,19 @@ const EditRatePlanDialog = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchZoneMap = async () => {
-    try {
-      const response = await GetData(`${API_URL}/mapping/zone-map/list`, {});
-
-      if (response.status) {
-        setZoneMaps(response.data);
-      } else {
-        toast.error(response.message);
-      }
-    } catch (error) {
-      toast.error("Error fetching zone map");
-    }
+    
   };
 
   const fetchSourceType = async () => {
-    try {
-      const response = await GetData(`${API_URL}/mapping/source-type/list`, {});
-
-      if (response.status) {
-        setSourceType(response.data);
-      } else {
-        toast.error(response.message);
-      }
-    } catch (error) {
-      toast.error("Error fetching source type");
-    }
+    
   };
 
   const fetchEventFeature = async (reAttrName?: string) => {
-    try {
-      const response = await GetData(`${API_URL}/mapping/re-attr/list`, {
-        reType: 3,
-        reAttrName: !reAttrName ? undefined : reAttrName,
-        spId: 0,
-      });
-
-      if (response.status) {
-        setEventFeaturesType(response.data);
-      } else {
-        toast.error(response.message);
-      }
-    } catch (error) {
-      toast.error("Error fetching event feature");
-    }
+    
   };
 
   const fetchEnumeration = async () => {
-    try {
-      const response = await GetData(`${API_URL}/mapping/enum/list`, {});
-
-      if (response.status) {
-        setEnumerationType(response.data);
-      } else {
-        toast.error(response.message);
-      }
-    } catch (error) {
-      toast.error("Error fetching enumeration");
-    }
+    
   };
 
   const fetchRatePlanDetail = async (ratePlanId: number) => {
@@ -201,12 +157,9 @@ const EditRatePlanDialog = () => {
       `${API_URL}/rate-plan/detail/${ratePlanId}`,
       {}
     );
-    const fetchZone = await GetData(`${API_URL}/rate-plan/zone/list`, {
-      ratePlanId,
-    });
+    
     const [response, zone] = await Promise.all([
       fetchData,
-      fetchZone,
       minDelay,
     ]);
     if (response.status) {
@@ -219,16 +172,6 @@ const EditRatePlanDialog = () => {
         ratePlanZones: null,
       });
 
-      if (Array.isArray(zone.data) && zone.data.length > 0) {
-        setHasZoneMap(true);
-        setEventFeatures(zone.data);
-        // Simpan data original ratePlanZones
-        setOriginalRatePlanZones([...zone.data]);
-      } else {
-        setHasZoneMap(false);
-        setEventFeatures([]);
-        setOriginalRatePlanZones([]);
-      }
     }
 
     setIsLoading(false);

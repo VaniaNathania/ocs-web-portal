@@ -142,26 +142,9 @@ const AddAccountDialog = () => {
       }
     };
 
-    const fetchCopyFrom = async () => {
-      try {
-        const response = await GetData(
-          `${API_URL}/priceplan/copyFrom/list`,
-          {}
-        );
-
-        if (response.status) {
-          setCopyFrom(response.data);
-        } else {
-          toast.error(response.message);
-        }
-      } catch (error) {
-        toast.error("Error GET Copy From Data");
-      }
-    };
 
     fetchServiceType(1, 100);
     fetchAllType();
-    fetchCopyFrom();
   }, []);
 
   /* actions */

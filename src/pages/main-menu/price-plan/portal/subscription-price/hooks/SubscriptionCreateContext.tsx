@@ -528,7 +528,7 @@ const SubscriptionPriceCreateContextProvider = ({
           break;
 
         case "priceRating":
-          endpoint = `${API_URL}/price/delete?priceId=${itemId}&priceVerId=${selectedPriceVer?.priceVerId}&reType=3`;
+          endpoint = `${API_URL}/price/delete?priceId=${itemId}&priceVerId=${selectedPriceVer?.priceVerId}&reType/3`;
           successMessage = "Price deleted successfully";
           break;
 
@@ -600,17 +600,25 @@ const SubscriptionPriceCreateContextProvider = ({
   };
 
   const doGetListEvent = useCallback(async () => {
-    try {
-      const response = await GetData(`${API_URL}/event/list`, {
-        offerVerId: selectedOfferVerId,
-        reType: 3,
-      });
+  if (!selectedOfferVerId) return;
 
-      setEvents(response?.data || []);
-    } catch (error) {
-      toast.error("Error loading Subscription Event data");
-    }
-  }, [selectedOfferVerId, GetData]);
+  try {
+    const response = await GetData(`${API_URL}/event/list`, {
+      offerVerId: selectedOfferVerId,
+      reType: 3,
+    });
+
+    setEvents(response?.data || []);
+  } catch (error) {
+    toast.error("Error loading Subscription Event data");
+  }
+}, [selectedOfferVerId, GetData]);
+
+useEffect(() => {
+  if (!selectedOfferVerId) return;
+
+  doGetListEvent();
+}, [selectedOfferVerId, doGetListEvent]);
 
   const doGetListRatePlan = useCallback(
     async (eventId: number) => {

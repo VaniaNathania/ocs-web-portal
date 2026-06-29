@@ -178,19 +178,19 @@ const EditRatePlanDialog = () => {
   };
 
   const fetchEvent = async () => {
-    try {
-      const reType = 9;
-      const response = await GetData(`${API_URL}/event/list`, {
-        offerVerId: selectedOfferVerId,
-        reType: 3,
-      });
-      if (response && response.data) {
-        setEventMenu(response.data);
-      }
-    } catch (error) {
-      console.error("Error fetching event data:", error);
-      toast.error("Failed to load event data");
-    }
+    // try {
+    //   const reType = 9;
+    //   const response = await GetData(`${API_URL}/event/list`, {
+    //     offerVerId: selectedOfferVerId,
+    //     reType: 3,
+    //   });
+    //   if (response && response.data) {
+    //     setEventMenu(response.data);
+    //   }
+    // } catch (error) {
+    //   console.error("Error fetching event data:", error);
+    //   toast.error("Failed to load event data");
+    // }
   };
 
   const findSelectedEvent = () => {

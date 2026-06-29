@@ -293,7 +293,7 @@ const EditPriceDialog = () => {
   const doUpdatePrice = async (formField: SubscriptionUpdatePriceRatingForm, priceId: number) => {
     setIsSubmitting(true);
     try {
-      const response = await PutData(`${API_URL}/price/update/${priceId}?reType=3`, formField);
+      const response = await PutData(`${API_URL}/price/update/${priceId}?reType/3`, formField);
 
       if (response?.status) {
         setSelectedMapping(null);

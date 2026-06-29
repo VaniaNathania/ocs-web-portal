@@ -109,7 +109,7 @@ const AddPriceVersionDialog = () => {
   const doCreatePriceVersion = async (formField: SubscriptionCreatePriceRatingForm) => {
     setIsSubmitting(true);
     try {
-      const response = await PostData(`${API_URL}/price/create?reType=3`, formField);
+      const response = await PostData(`${API_URL}/price/create?reType/3`, formField);
 
       if (response?.status) {
         setSelectedMapping(null);

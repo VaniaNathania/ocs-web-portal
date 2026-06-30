@@ -23,7 +23,7 @@ export const Main = () => {
   return (
     <Fragment>
       <Helmet>
-        <title>Sinorita | {activeTab}</title>
+        <title>{activeTab}</title>
       </Helmet>
       <div className="grow relative flex flex-col">
         <Header />
